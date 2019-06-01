@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.UserMapperDao">
+    <!--重勇SQL-->
+    <sql id="selectAll">
+        select * from <include refid="${table_name}}"/>
+    </sql>
+    <sql id="columes">
+        #{prefix}.name,#{one}.sex
+    </sql>
+    <select id="GG" parameterType="int">
+        SELECT
+        <include refid="columes">
+            <property name="prefix" value="a"/>
+        </include>
+        from USER where id=#{id}
+    </select>
+    <!--对某个bean自定义映射规则
+    【type】写全类名和别名都可以（前提是写了别名）
+    【id】这个规则的唯一标识-->
+    <resultMap id="findPerson" type="com.entity.User">
+        <!--指定主键列，使得框架优化规则
+        【column】指定列
+        【property】制定对应bean的属性值-->
+        <id property="userId" column="id"></id>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+    <!--【resultMap】自定义结果集映射规则（不能和resultType混用,传递参数可以使用Map或者Bean来实现-->
+    <select id="findByName" resultMap="findPerson" parameterType="String">
+        select name,age,sex from USER where name = #{name}
+    </select>
+    <select id="findByAn" resultMap="findPerson">
+        select name,age,sex from USER where name=#{name} AND sex=#{sex}
+    </select>
+    <!-- select ${cols} from user where id=#{id} 设置$将不会zhuanyi，而是值出-->
+
+    <!--调用SQL的时候清除之前查询的本地缓存和erji缓存，指定key，使用数据库的自增（回回填Bean的ID）-->
+    <insert id="insert" parameterType="user" flushCache="true" keyProperty="userId" useGeneratedKeys="true">
+        <selectKey keyProperty="userId" resultType="int" order="BEFORE">
+            SELECT  if(max(id) IS null,1,max(id)+1) as newId from USER
+        </selectKey>
+        INSERT INTO USER (id,name,age,sex) VALUES (#{userId},#{name},#{age},#{sex})
+    </insert>
+
+    <update id="updateUser" parameterType="user" >
+        UPDATE USER SET name=#{name},age=#{age},sex=#{sex} WHERE id=#{userId}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE from USER where id=#{id}
+    </delete>
+
+</mapper>

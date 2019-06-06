@@ -1,5 +1,6 @@
 package com.example.Redis;
 
+import com.entity.Sex;
 import com.entity.User;
 import com.redis.RedisUtil;
 import com.service.impl.UserServiceImpl;
@@ -22,11 +23,11 @@ public class RedisApplicationTests {
 //		System.out.println(redisUtil.get("message"));
 //		redisUtil.set("value","haha");
 		User user=new User();
-		user.setUserId(1);
-		user.setName("捞王");
+//		user.setUserId(1);
+		user.setName("Li");
 		user.setAge(100);
-		user.setSex("男");
-		userService.deleteUser(6);
+		user.setSex(Sex.Man);
+		userService.insert(user);
 	}
 
 }

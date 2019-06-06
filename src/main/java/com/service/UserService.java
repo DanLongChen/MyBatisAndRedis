@@ -14,4 +14,5 @@ public interface UserService {
     public void insert(User user);
     public void updateUser(User user);
     public void deleteUser(int id);
+    public int coutAgeBigger(int age);
 }

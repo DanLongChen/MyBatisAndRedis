@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.entity.Sex;
 import com.entity.User;
 import com.redis.RedisUtil;
 import com.service.impl.UserServiceImpl;
@@ -28,17 +29,23 @@ public class UserController {
         }
         return userServiceImpl.queryByUserName(request.getParameter("name"));
     }
-    @RequestMapping("insert")
+    @RequestMapping("/insert")
     @ResponseBody
     public String insert(HttpServletRequest request){
         String name=request.getParameter("name");
         int age=Integer.parseInt(request.getParameter("age"));
-        String sex=request.getParameter("sex");
+        Sex sex=Sex.get(Integer.valueOf(request.getParameter("sex")));
         User user=new User();
         user.setName(name);
         user.setAge(age);
         user.setSex(sex);
         userServiceImpl.insert(user);
         return "Success";
+    }
+    @RequestMapping("/count")
+    @ResponseBody
+    public int cout(HttpServletRequest request){
+        String age=request.getParameter("age");
+        return userServiceImpl.coutAgeBigger(Integer.valueOf(age));
     }
 }

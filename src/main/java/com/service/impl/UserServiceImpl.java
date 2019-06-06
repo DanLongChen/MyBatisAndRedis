@@ -46,4 +46,14 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(int id) {
         dao.delete(id);
     }
+
+    /**
+     * 查找出年龄>age人的个数
+     * @param age
+     * @return
+     */
+    @Override
+    public int coutAgeBigger(int age) {
+        return dao.countAgeBigger(age);
+    }
 }

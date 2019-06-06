@@ -2,15 +2,17 @@ package com.entity;
 
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 /**
  * Created by Paser on 2019/3/4.
  */
 @Alias("user")//定义别名
-public class User {
+public class User implements Serializable {
     private int userId;
     private String name;
     private int age;
-    private String sex;
+    private Sex sex;
 
     public String getName() {
         return name;
@@ -28,11 +30,11 @@ public class User {
         this.age = age;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
     public int getUserId() {
